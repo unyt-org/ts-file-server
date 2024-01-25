@@ -26,7 +26,7 @@ const importmap = import_map_path.fs_exists ? await import_map_path.getTextConte
 
 new Server(lib_dir, {
     cors: true, 
-    resolve_index_html: true,
+    // resolve_index_html: true,
     transpilers: {
         '/': new Transpiler(lib_dir, {
             watch: watch,

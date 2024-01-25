@@ -74,6 +74,9 @@
   },
   "remote": {
     "https://cdn.jsdelivr.net/gh/speed-highlight/core/dist/index.js": "3f06bcb851f0ad78de4ab1886611d1253a57d875c287a93ae92efa80c5e7593b",
+    "https://cdn.jsdelivr.net/gh/speed-highlight/core/dist/languages/js.js": "7876640e51ac364ccc44ed578a7ad0c7d8e430524a27307d91c960a0adf7836e",
+    "https://cdn.jsdelivr.net/gh/speed-highlight/core/dist/languages/jsdoc.js": "ddbd7ee7f99cd3898d3880ab531bcece00e9798a07807ce5ca018a27487379f5",
+    "https://cdn.jsdelivr.net/gh/speed-highlight/core/dist/languages/todo.js": "35bc69d4a579bffbacc77af6f5b47fe3086e82332ed553e6e941d1010e443a81",
     "https://deno.land/std@0.131.0/_util/assert.ts": "e94f2eb37cebd7f199952e242c77654e43333c1ac4c5c700e929ea3aa5489f74",
     "https://deno.land/std@0.131.0/_util/os.ts": "49b92edea1e82ba295ec946de8ffd956ed123e2948d9bd1d3e901b04e4307617",
     "https://deno.land/std@0.131.0/path/_constants.ts": "df1db3ffa6dd6d1252cc9617e5d72165cd2483df90e93833e13580687b6083c3",
