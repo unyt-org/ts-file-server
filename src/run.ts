@@ -30,6 +30,7 @@ new Server(lib_dir, {
     transpilers: {
         '/': new Transpiler(lib_dir, {
             watch: watch,
+            minifyJS: true,
             import_resolver: new TypescriptImportResolver(lib_dir, {
 				import_map: {imports: JSON.parse(importmap).imports}
             })

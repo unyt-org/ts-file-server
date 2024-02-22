@@ -34,6 +34,7 @@ export type transpiler_options = {
     dist_parent_dir?: Path.File, // parent dir for dist dirs
     dist_dir?: Path.File, // use different path for dist (default: generated tmp dir)
     sourceMap?: boolean // generate inline source maps when transpiling ts
+    minifyJS?: boolean // minify js files after transpiling
 }
 
 type transpiler_options_all = Required<transpiler_options>;
@@ -194,6 +195,7 @@ export class Transpiler {
         if (!options.transpile_exts) options.transpile_exts = {};
         if (!('copy_all' in options)) options.copy_all = false;
         if (!('watch' in options)) options.watch = false;
+        if (!('minifyJS' in options)) options.minifyJS = true;
 
         this.#options = <transpiler_options_all> options;
         this.#transpile_exts = Object.keys(this.#options.transpile_exts)
@@ -557,7 +559,13 @@ export class Transpiler {
                     experimental: experimentalPlugins
                 }
             }).code
-            if (transpiled != undefined) await Deno.writeTextFile(js_dist_path.normal_pathname, transpiled);
+            if (transpiled != undefined) {
+                await Deno.writeTextFile(js_dist_path.normal_pathname, 
+                    this.#options.minifyJS ? 
+                        await this.minifyJS(transpiled) : 
+                        transpiled
+                );
+            }
             else throw "unknown error"
         }
         catch (e) {
@@ -566,5 +574,16 @@ export class Transpiler {
         }
        
         return js_dist_path;
+    }
+
+    private async minifyJS(source: string) {
+        const {minify} = await import("npm:terser");
+        const minifiedSource = await minify(source, {
+            module: true
+        });
+        if (minifiedSource.code == undefined) {
+            logger.error("could not minify js");
+        }
+        return minifiedSource.code ?? source;
     }
 }
