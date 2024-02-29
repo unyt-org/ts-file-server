@@ -3,6 +3,7 @@
   "packages": {
     "specifiers": {
       "npm:@swc/core": "npm:@swc/core@1.3.106",
+      "npm:@swc/core@^1.4.2": "npm:@swc/core@1.4.2",
       "npm:terser": "npm:terser@5.27.2"
     },
     "npm": {
@@ -44,40 +45,80 @@
         "integrity": "sha512-XYcbViNyHnnm7RWOAO1YipMmthM7m2aXF32b0y+JMLYFBEyFpjVX9btLkzeL7wRx/5B3I35yJNhE+xyx0Q1Gkw==",
         "dependencies": {}
       },
+      "@swc/core-darwin-arm64@1.4.2": {
+        "integrity": "sha512-1uSdAn1MRK5C1m/TvLZ2RDvr0zLvochgrZ2xL+lRzugLlCTlSA+Q4TWtrZaOz+vnnFVliCpw7c7qu0JouhgQIw==",
+        "dependencies": {}
+      },
       "@swc/core-darwin-x64@1.3.106": {
         "integrity": "sha512-YKDPhUdfuwhmOUS9+CaIwl/0Tp+f1b73BH2EIESuxSNsogZf18a8HQ8O0fQEwdiwmA5LEqw47cj+kfOWV/0+kw==",
+        "dependencies": {}
+      },
+      "@swc/core-darwin-x64@1.4.2": {
+        "integrity": "sha512-TYD28+dCQKeuxxcy7gLJUCFLqrwDZnHtC2z7cdeGfZpbI2mbfppfTf2wUPzqZk3gEC96zHd4Yr37V3Tvzar+lQ==",
         "dependencies": {}
       },
       "@swc/core-linux-arm-gnueabihf@1.3.106": {
         "integrity": "sha512-bHxxJXogvFfocLL5inZxxtx/x/WgKozigp80Vbx0viac1fPDJrqKBw2X4MzpMiuTRAGVQ03jJI6pDwbSBf+yDw==",
         "dependencies": {}
       },
+      "@swc/core-linux-arm-gnueabihf@1.4.2": {
+        "integrity": "sha512-Eyqipf7ZPGj0vplKHo8JUOoU1un2sg5PjJMpEesX0k+6HKE2T8pdyeyXODN0YTFqzndSa/J43EEPXm+rHAsLFQ==",
+        "dependencies": {}
+      },
       "@swc/core-linux-arm64-gnu@1.3.106": {
         "integrity": "sha512-c7jue++CHLgtpeaakEukoCLT9eNrImizbleE9Y7Is8CHqLq/7DG4s+7ma9DFKXIzW2MpTg9byIEQfpqSphVW6A==",
+        "dependencies": {}
+      },
+      "@swc/core-linux-arm64-gnu@1.4.2": {
+        "integrity": "sha512-wZn02DH8VYPv3FC0ub4my52Rttsus/rFw+UUfzdb3tHMHXB66LqN+rR0ssIOZrH6K+VLN6qpTw9VizjyoH0BxA==",
         "dependencies": {}
       },
       "@swc/core-linux-arm64-musl@1.3.106": {
         "integrity": "sha512-51EaC3Q8qAhLtWVnAVqoYX/gk3tK31cCBzUpwCcmhianhEBM2/WtKRAS4MqPhE8VVZuN3WjO2c2JaF2mX0yuoA==",
         "dependencies": {}
       },
+      "@swc/core-linux-arm64-musl@1.4.2": {
+        "integrity": "sha512-3G0D5z9hUj9bXNcwmA1eGiFTwe5rWkuL3DsoviTj73TKLpk7u64ND0XjEfO0huVv4vVu9H1jodrKb7nvln/dlw==",
+        "dependencies": {}
+      },
       "@swc/core-linux-x64-gnu@1.3.106": {
         "integrity": "sha512-tOUi8BB6jAeCXgx7ESLNnX7nrbMVKQ/XajK77v7Ad4SXf9HYArnimBJpXUUyVFJTXLSv4e6c7s6XHHqXb5Lwcg==",
+        "dependencies": {}
+      },
+      "@swc/core-linux-x64-gnu@1.4.2": {
+        "integrity": "sha512-LFxn9U8cjmYHw3jrdPNqPAkBGglKE3tCZ8rA7hYyp0BFxuo7L2ZcEnPm4RFpmSCCsExFH+LEJWuMGgWERoktvg==",
         "dependencies": {}
       },
       "@swc/core-linux-x64-musl@1.3.106": {
         "integrity": "sha512-binLw4Lbd83NPy4/m/teH2nbaifxveSD+sKDvpxywRbvYW2I0w/iCBpUBcbnl16TQF4TPOGpq5YwG9lVxPVw5g==",
         "dependencies": {}
       },
+      "@swc/core-linux-x64-musl@1.4.2": {
+        "integrity": "sha512-dp0fAmreeVVYTUcb4u9njTPrYzKnbIH0EhH2qvC9GOYNNREUu2GezSIDgonjOXkHiTCvopG4xU7y56XtXj4VrQ==",
+        "dependencies": {}
+      },
       "@swc/core-win32-arm64-msvc@1.3.106": {
         "integrity": "sha512-n4ttBWr8tM7DPzwcEOIBTyTMHZTzCmbic/HTtxEsPyMAf/Daen+yrTKzjPP6k2usfSrjkxA780RSJJxI1N8r2w==",
+        "dependencies": {}
+      },
+      "@swc/core-win32-arm64-msvc@1.4.2": {
+        "integrity": "sha512-HlVIiLMQkzthAdqMslQhDkoXJ5+AOLUSTV6fm6shFKZKqc/9cJvr4S8UveNERL9zUficA36yM3bbfo36McwnvQ==",
         "dependencies": {}
       },
       "@swc/core-win32-ia32-msvc@1.3.106": {
         "integrity": "sha512-GhDNIwxE5FhkujESI6h/4ysT3wxwmrzTUlZYaR8rRui6a6SdX9feIPUHPEE5o5hpyp+xqlmvRxKkRxOnwsq8iA==",
         "dependencies": {}
       },
+      "@swc/core-win32-ia32-msvc@1.4.2": {
+        "integrity": "sha512-WCF8faPGjCl4oIgugkp+kL9nl3nUATlzKXCEGFowMEmVVCFM0GsqlmGdPp1pjZoWc9tpYanoXQDnp5IvlDSLhA==",
+        "dependencies": {}
+      },
       "@swc/core-win32-x64-msvc@1.3.106": {
         "integrity": "sha512-2M6yWChuMS1+/MPo3Dor0SOMkvmiugonWlzsZBAu/oZboH2xKrHSRv7brsBujb2Oe47r+NsbV+vq9tnnP9Vl1Q==",
+        "dependencies": {}
+      },
+      "@swc/core-win32-x64-msvc@1.4.2": {
+        "integrity": "sha512-oV71rwiSpA5xre2C5570BhCsg1HF97SNLsZ/12xv7zayGzqr3yvFALFJN8tHKpqUdCB4FGPjoP3JFdV3i+1wUw==",
         "dependencies": {}
       },
       "@swc/core@1.3.106": {
@@ -93,6 +134,23 @@
           "@swc/core-win32-arm64-msvc": "@swc/core-win32-arm64-msvc@1.3.106",
           "@swc/core-win32-ia32-msvc": "@swc/core-win32-ia32-msvc@1.3.106",
           "@swc/core-win32-x64-msvc": "@swc/core-win32-x64-msvc@1.3.106",
+          "@swc/counter": "@swc/counter@0.1.2",
+          "@swc/types": "@swc/types@0.1.5"
+        }
+      },
+      "@swc/core@1.4.2": {
+        "integrity": "sha512-vWgY07R/eqj1/a0vsRKLI9o9klGZfpLNOVEnrv4nrccxBgYPjcf22IWwAoaBJ+wpA7Q4fVjCUM8lP0m01dpxcg==",
+        "dependencies": {
+          "@swc/core-darwin-arm64": "@swc/core-darwin-arm64@1.4.2",
+          "@swc/core-darwin-x64": "@swc/core-darwin-x64@1.4.2",
+          "@swc/core-linux-arm-gnueabihf": "@swc/core-linux-arm-gnueabihf@1.4.2",
+          "@swc/core-linux-arm64-gnu": "@swc/core-linux-arm64-gnu@1.4.2",
+          "@swc/core-linux-arm64-musl": "@swc/core-linux-arm64-musl@1.4.2",
+          "@swc/core-linux-x64-gnu": "@swc/core-linux-x64-gnu@1.4.2",
+          "@swc/core-linux-x64-musl": "@swc/core-linux-x64-musl@1.4.2",
+          "@swc/core-win32-arm64-msvc": "@swc/core-win32-arm64-msvc@1.4.2",
+          "@swc/core-win32-ia32-msvc": "@swc/core-win32-ia32-msvc@1.4.2",
+          "@swc/core-win32-x64-msvc": "@swc/core-win32-x64-msvc@1.4.2",
           "@swc/counter": "@swc/counter@0.1.2",
           "@swc/types": "@swc/types@0.1.5"
         }
