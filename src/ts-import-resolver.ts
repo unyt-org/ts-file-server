@@ -140,8 +140,8 @@ export class TypescriptImportResolver {
             const abs_import_path = is_prefix ? null : new Path(rel_import_path!, reference_path);
             
 
-            // workaround: ignore 'node:x' paths
-            if (abs_import_path?.toString().startsWith("node:")) return match;
+            // workaround: ignore 'node:x'/'npm:x' paths
+            if (abs_import_path?.toString().startsWith("node:")||abs_import_path?.toString().startsWith("npm:")) return match;
 
             // already resolved web path
             if (abs_import_path?.is_web) return match;
