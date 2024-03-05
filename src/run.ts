@@ -12,7 +12,7 @@ const watch = options.option("watch", {aliases: ["w"], default: false, type: "bo
 const port =  options.option("port", {default: 80, type: "number", description: "The port on which the web server should run"});
 const path =  options.option("path", {aliases: ["p"], default: Deno.cwd(), type: "string", description: "The file directory", collectNotPrefixedArgs: true, allowEmptyString: false});
 const minify = options.option("minify", {default: true, type:"boolean"});
-
+const sourceMaps = options.option("source-maps", {default: true, type:"boolean"});
 const lib_dir = new Path<Path.Protocol.File>(path, "file://"+Deno.cwd()+"/").asDir();
 let import_map_path = lib_dir.getChildPath('deno.json')
 // check if deno json has external import map
@@ -33,6 +33,8 @@ new Server(lib_dir, {
         '/': new Transpiler(lib_dir, {
             watch: watch,
             minifyJS: minify,
+            sourceMaps: sourceMaps,
+            basePath: lib_dir,
             import_resolver: new TypescriptImportResolver(lib_dir, {
 				import_map: {imports: JSON.parse(importmap).imports}
             })
