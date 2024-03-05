@@ -89,7 +89,7 @@ export class Transpiler {
 
     // returns true if the file has to be transpiled 
     isTranspiledFile(path:Path) {
-        return path.hasFileExtension(...this.#transpile_exts) && !path.hasFileExtension('d.ts')
+        return path.hasFileExtension(...this.#transpile_exts, 'map') && !path.hasFileExtension('d.ts')
     }
 
     // returns true if the tranpiled file has the same name as the src file (e.g. x.css -> x.css)
