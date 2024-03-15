@@ -556,7 +556,7 @@ export class Server {
 
             if (!filepath || !await filepath?.fsExists()) return this.getErrorResponse(404, "Not found");
             
-            const consumer = await this.getSourceMapConsumer(filepath);
+            const consumer = contentType !== "source" && await this.getSourceMapConsumer(filepath);
 
             let line = lineNumber;
             let col = colNumber;
