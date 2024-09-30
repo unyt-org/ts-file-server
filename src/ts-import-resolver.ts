@@ -141,7 +141,7 @@ export class TypescriptImportResolver {
             
 
             // workaround: ignore 'node:x'/'npm:x' paths
-            if (abs_import_path?.toString().startsWith("node:")||abs_import_path?.toString().startsWith("npm:")) return match;
+            if (abs_import_path?.toString().startsWith("node:")||abs_import_path?.toString().startsWith("npm:")||abs_import_path?.startsWith("jsr:")) return match;
 
             // already resolved web path
             if (abs_import_path?.is_web) return match;
