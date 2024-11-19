@@ -2,6 +2,7 @@ import { Path } from "./utils/path.ts";
 import { TypescriptImportResolver } from "./ts-import-resolver.ts";
 import { getCallerDir } from "./utils/caller_metadata.ts";
 import { Logger } from "./utils/logger.ts";
+import { getBaseDirectory } from "./utils/uix-base-directory.ts";
 
 const client_type = "deno"
 
@@ -26,6 +27,7 @@ const logger = new Logger("transpiler");
  */
 
 export type transpiler_options = {
+    useJUSIX?: boolean,
     watch?: boolean, // watch src dir and update on change, default: false
     copy_all?: boolean, // if true, all files are copied to a tmp directory, otherwise only the ones that have to be transpiled, default: false
     transpile_exts?: Record<string,string> // extensions of files to transpile, default: {ts:'js', mts:'mjs'}
@@ -33,9 +35,12 @@ export type transpiler_options = {
     import_resolver?: TypescriptImportResolver,
     dist_parent_dir?: Path.File, // parent dir for dist dirs
     dist_dir?: Path.File, // use different path for dist (default: generated tmp dir)
-    sourceMaps?: boolean // generate inline source maps when transpiling ts
+    sourceMaps?: boolean // generate inline source maps when transpiling ts,
+    dependencyMaps?: boolean // generate module dependencies file
     minifyJS?: boolean // minify js files after transpiling
-    basePath?: Path.File
+    basePath?: Path.File,
+    persistentCachePath?: Path.File // path to store transpiled files persistently
+    hasPersistentCachePath?: boolean // if true, the current path is treated as persistent, but not overridden (useful when path is implicitly set with dist_parent_dir)
 }
 
 type transpiler_options_all = Required<transpiler_options>;
@@ -346,7 +351,8 @@ export class Transpiler {
             // await this.transpileScopedCss(path, src_path)
         }
         catch (e) {
-            if (e.message?.endsWith("memory access out of bounds")) logger.error("SCSS error ("+src_path.normal_pathname+"): memory access out of bounds (possible circular imports)");
+            if (e.message?.endsWith("memory access out of bounds")) 
+                logger.error("SCSS error ("+src_path.normal_pathname+"): memory access out of bounds (possible circular imports)");
             else logger.error("SCSS error ("+src_path.normal_pathname+"): " + e)
         }
     }
@@ -499,8 +505,9 @@ export class Transpiler {
 
         if (!valid) throw new Error("the typescript file cannot be transpiled - not a valid file extension");
 
-        return this.transpileToJSSWC(ts_dist_path, src_path, false)
+        return this.transpileToJSSWC(ts_dist_path, src_path, this.#options.useJUSIX);
     }
+
   
     private async transpileToJSDenoEmit(ts_dist_path:Path.File) {
         const js_dist_path = this.getFileWithMappedExtension(ts_dist_path);
@@ -519,18 +526,45 @@ export class Transpiler {
             else throw "unknown error"
         }
         catch (e) {
-            logger.error("could not transpile " + ts_dist_path + ": " + e.message??e);
+            logger.error("could not transpile " + ts_dist_path + ": " + (e.message??e));
         }
        
         return js_dist_path;
     }
 
+
+    static #jusixLoading?: Promise<string>
+  
+    public static async getJusix(update = false) {
+        if (this.#jusixLoading) return this.#jusixLoading;
+        const {promise, resolve} = Promise.withResolvers<string>()
+        this.#jusixLoading = promise;
+
+        const wasmPath = getBaseDirectory().getChildPath("jusix.wasm");
+
+        // if wasm file does not exist or update is forced, download
+        if (update || !await wasmPath.fsExists()) {
+            logger.info("updating JUSIX...");
+            // download jusix
+            const JUSIX_WASM_URL = "https://github.com/unyt-org/jusix/raw/wasm-plugin/jusix.wasm";
+            const response = await fetch(JUSIX_WASM_URL);
+            // save in deno dir
+            const bin = await response.arrayBuffer();
+            await Deno.writeFile(wasmPath.normal_pathname, new Uint8Array(bin));
+            logger.success("JUSIX updated");
+        }
+        resolve(wasmPath.normal_pathname);
+        return wasmPath.normal_pathname;
+    }
+
     private async transpileToJSSWC(ts_dist_path: Path.File, src_path: Path.File, useJusix = false) {
-        const {transform} = await import("npm:@swc/core@^1.4.2");
+        const {transform} = await import("npm:@swc/core@1.7.23");
+
+        const jusixPath = useJusix && await Transpiler.getJusix();
 
         const experimentalPlugins = useJusix ? {
             plugins: [
-                ["jusix", {}]
+                [jusixPath, {}]
             ]
         } as Record<string, any> : undefined;
 
@@ -538,7 +572,7 @@ export class Transpiler {
         try {
 
             // workaround: select decorators based on uix/datex version
-            let decoratorVersion = "2022-03";
+            let decoratorVersion:"2022-03" | "2021-12" = "2022-03";
             const pathname = ts_dist_path.normal_pathname;
             if (
                 pathname.match(/\/uix-0\.(0|1)\.\d+\//)||
@@ -607,7 +641,7 @@ export class Transpiler {
         }
         catch (e) {
             console.log(e)
-            logger.error("could not transpile " + ts_dist_path + ": " + e.message??e);
+            logger.error("could not transpile " + ts_dist_path + ": " + (e.message??e));
         }
        
         return js_dist_path;
@@ -617,7 +651,11 @@ export class Transpiler {
         const {minify} = await import("npm:terser");
         const minifiedSource = await minify(source, {
             module: true,
-            keep_classnames: true
+            keep_classnames: true,
+            compress: {
+                unused: true,
+                drop_debugger: false
+            },
         });
         if (minifiedSource.code == undefined) {
             logger.error("could not minify js");
