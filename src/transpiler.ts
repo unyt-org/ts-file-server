@@ -557,16 +557,28 @@ export class Transpiler {
         return wasmPath.normal_pathname;
     }
 
-    private async transpileToJSSWC(ts_dist_path: Path.File, src_path: Path.File, useJusix = false) {
-        const {transform} = await import("npm:@swc/core@1.10.7");
+    #swc?: Promise<any>
+    private getSwc() {
+        if (this.#swc) return this.#swc;
 
+        this.#swc = (async () => {
+            const swc = await import("https://cdn.jsdelivr.net/npm/@swc/wasm-web@1.10.7/wasm.min.js")
+            await swc.default();
+            return swc;
+        })();
+        
+        return this.#swc;
+    }
+
+    private async transpileToJSSWC(ts_dist_path: Path.File, src_path: Path.File, useJusix = false) {
+        const {transform} = await this.getSwc(); // await import("npm:@swc/core@1.10.7");
         const jusixPath = useJusix && await Transpiler.getJusix();
 
         const experimentalPlugins = useJusix ? {
             plugins: [
                 [jusixPath, {}]
             ]
-        } as Record<string, any> : undefined;
+        } as Record<string, any> : {};
 
         const js_dist_path = this.getFileWithMappedExtension(ts_dist_path);
         try {
@@ -640,7 +652,7 @@ export class Transpiler {
             else throw "unknown error"
         }
         catch (e) {
-            console.log(e)
+            console.log(e);
             logger.error("could not transpile " + ts_dist_path + ": " + (e.message??e));
         }
        
